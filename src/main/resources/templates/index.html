@@ -37,10 +37,14 @@
             <td th:text="${customer.emailAddress}">Email Address</td>
             <td th:text="${customer.age}">Age</td>
             <td th:text="${customer.address}">Address</td>
-            <td><!-- actions --></td>
+            <td>
+                <a th:href="@{'/edit/' + ${customer.id}}">Edit</a>
+                <a th:href="@{'/delete/' + ${customer.id}}">Delete</a>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
+<a th:href="@{/new}">Add New Customer</a>
 </body>
 </html>
