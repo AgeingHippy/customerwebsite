@@ -2,11 +2,16 @@ package com.ageinghippy.customerwebsite.service;
 
 import com.ageinghippy.customerwebsite.model.Customer;
 import com.ageinghippy.customerwebsite.repository.CustomerRepository;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +19,7 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final Validator validator;
 
     @Override
     public List<Customer> getAllCustomers() {
@@ -23,6 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public Customer saveCustomer(Customer customer) {
+        validateCustomer(customer);
         return customerRepository.save(customer);
     }
 
@@ -41,6 +48,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public List<Customer> saveAllCustomer(List<Customer> customerList) {
         return customerRepository.saveAll(customerList);
+    }
+
+    private void validateCustomer(Customer customer) {
+        Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
     }
 }
 

@@ -1,7 +1,9 @@
 package com.ageinghippy.customerwebsite.controller;
 
 import com.ageinghippy.customerwebsite.model.Customer;
+import com.ageinghippy.customerwebsite.model.CustomerErrorResponse;
 import com.ageinghippy.customerwebsite.service.CustomerService;
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,8 +43,15 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/save")
-    public String saveCustomer(@ModelAttribute("customer") Customer customer) {
-        customerService.saveCustomer(customer);
+    public String saveCustomer(@ModelAttribute("customer") Customer customer, Model model) {
+        try {
+            customerService.saveCustomer(customer);
+        } catch (ConstraintViolationException e) {
+            CustomerErrorResponse customerErrorResponse = new CustomerErrorResponse(e.getConstraintViolations());
+            model.addAttribute ("customerErrorResponse", customerErrorResponse);
+            return "error-page";
+        }
+
         return "redirect:/";
     }
 
@@ -67,7 +76,14 @@ public class CustomerController {
             return "error-page";
         }
 
-        customerService.saveCustomer(customer);
+        try {
+            customerService.saveCustomer(customer);
+        } catch (ConstraintViolationException e) {
+            CustomerErrorResponse customerErrorResponse = new CustomerErrorResponse(e.getConstraintViolations());
+            model.addAttribute ("customerErrorResponse", customerErrorResponse);
+            return "error-page";
+        }
+
         return "redirect:/";
     }
 
