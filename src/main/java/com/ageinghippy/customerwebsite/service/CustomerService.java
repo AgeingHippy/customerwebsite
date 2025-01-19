@@ -10,6 +10,10 @@ public interface CustomerService {
 
     Customer saveCustomer(Customer customer);
 
+    Customer assignCarToCustomer(Long id, Long carId);
+
+    Customer removeCarFromCustomer(Long id);
+
     Customer getCustomer(Long id);
 
     void deleteCustomer(Long id);

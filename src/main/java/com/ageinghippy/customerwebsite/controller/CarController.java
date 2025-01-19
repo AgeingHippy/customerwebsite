@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -31,6 +32,15 @@ public class CarController {
         Car car = new Car();
         model.addAttribute("car", car);
         return "new-car";
+    }
+
+    @RequestMapping("/assign/{customerId}")
+    public String showAssignCarPage(@PathVariable Long customerId, Model model) {
+        List<Car> cars = carService.getAllUnassignedCars();
+        model.addAttribute("customerId",customerId);
+        model.addAttribute("carList", cars);
+        model.addAttribute("car",new Car());
+        return "select-car";
     }
 
     @RequestMapping("/save")

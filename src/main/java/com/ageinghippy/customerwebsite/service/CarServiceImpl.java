@@ -21,6 +21,11 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public List<Car> getAllUnassignedCars() {
+        return carRepository.findByCustomerIsNull();
+    }
+
+    @Override
     @Transactional
     public Car saveCar(Car car) {
         return carRepository.save(car);

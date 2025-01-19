@@ -1,5 +1,6 @@
 package com.ageinghippy.customerwebsite.controller;
 
+import com.ageinghippy.customerwebsite.model.Car;
 import com.ageinghippy.customerwebsite.model.Customer;
 import com.ageinghippy.customerwebsite.model.CustomerErrorResponse;
 import com.ageinghippy.customerwebsite.service.CustomerService;
@@ -19,7 +20,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @GetMapping(value = {"","/"})
+    @GetMapping(value = {"", "/"})
     public String showViewCustomerPage(Model model) {
 
         // call the service to retrieve all customers
@@ -86,6 +87,21 @@ public class CustomerController {
         }
 
         return "redirect:/customer/";
+    }
+
+    @PostMapping("/assign/{id}")
+    public String assignCar(@PathVariable(name = "id") Long id,
+                            @ModelAttribute("car") Car car) {
+        customerService.assignCarToCustomer(id, car.getId());
+
+        return "redirect:/customer";
+    }
+
+    @GetMapping("/remove/{id}")
+    public String removeCar(@PathVariable(name = "id") Long id) {
+        customerService.removeCarFromCustomer(id);
+
+        return "redirect:/customer";
     }
 
     @RequestMapping("/delete/{id}")

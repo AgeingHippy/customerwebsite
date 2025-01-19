@@ -18,6 +18,7 @@ import java.util.Set;
 @Transactional(readOnly = true)
 public class CustomerServiceImpl implements CustomerService {
 
+    private final CarService carService;
     private final CustomerRepository customerRepository;
     private final Validator validator;
 
@@ -34,6 +35,22 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
+    public Customer assignCarToCustomer(Long id, Long carId) {
+        Customer customer = customerRepository.findById(id).orElse(null);
+        customer.setCar(carService.getCar(carId));
+        return customerRepository.save(customer);
+    }
+
+    @Override
+    @Transactional
+    public Customer removeCarFromCustomer(Long id) {
+        Customer customer = customerRepository.findById(id).orElse(null);
+        customer.setCar(null);
+        return customerRepository.save(customer);
+    }
+
+    @Override
     public Customer getCustomer(Long id) {
         return customerRepository.findById(id).orElse(null);
     }
@@ -41,6 +58,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void deleteCustomer(Long id) {
+        //todo - determine correct CascadeType so that manual removal of car is not necessary - NOT WORKING!!
+        Customer customer = customerRepository.findById(id).orElse(null);
+        if (customer.getCar() != null) {
+            customer.setCar(null);
+            customerRepository.saveAndFlush(customer);
+            customer = customerRepository.findById(id).orElse(null);
+        }
         customerRepository.deleteById(id);
     }
 

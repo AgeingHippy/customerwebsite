@@ -8,6 +8,8 @@ public interface CarService {
 
     public List<Car> getAllCars();
 
+    public List<Car> getAllUnassignedCars();
+
     public Car saveCar(Car car);
 
     public Car getCar(Long id);

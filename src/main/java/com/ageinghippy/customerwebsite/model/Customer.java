@@ -3,6 +3,7 @@ package com.ageinghippy.customerwebsite.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @AllArgsConstructor
@@ -27,6 +28,6 @@ public class Customer {
     @NotEmpty
     private String address;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Car car;
 }
