@@ -26,4 +26,7 @@ public class Customer {
     private Integer age;
     @NotEmpty
     private String address;
+
+    @OneToOne
+    private Car car;
 }

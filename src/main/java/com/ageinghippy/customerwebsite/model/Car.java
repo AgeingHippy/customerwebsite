@@ -2,12 +2,16 @@ package com.ageinghippy.customerwebsite.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Car {
     @Id
     @GeneratedValue
@@ -28,6 +32,7 @@ public class Car {
     @Column(nullable = false)
     private Integer costPerDay;
 
-    @Column(name = "customer_id")
+    @OneToOne(mappedBy = "car")
     private Customer customer;
+
 }

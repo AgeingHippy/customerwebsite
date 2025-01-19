@@ -13,13 +13,14 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
+@RequestMapping("/customer")
 @RequiredArgsConstructor
 public class CustomerController {
 
     private final CustomerService customerService;
 
-    @GetMapping("/")
-    public String viewHomePage(Model model) {
+    @GetMapping(value = {"","/"})
+    public String showViewCustomerPage(Model model) {
 
         // call the service to retrieve all customers
         final List<Customer> customerList = customerService.getAllCustomers();
@@ -28,7 +29,7 @@ public class CustomerController {
         // store them in model and return the view
         model.addAttribute("customerList", customerList);
 
-        return "index";
+        return "view-customer";
     }
 
     @GetMapping("/new")
@@ -48,11 +49,11 @@ public class CustomerController {
             customerService.saveCustomer(customer);
         } catch (ConstraintViolationException e) {
             CustomerErrorResponse customerErrorResponse = new CustomerErrorResponse(e.getConstraintViolations());
-            model.addAttribute ("customerErrorResponse", customerErrorResponse);
+            model.addAttribute("customerErrorResponse", customerErrorResponse);
             return "error-page";
         }
 
-        return "redirect:/";
+        return "redirect:/customer/";
     }
 
     @GetMapping("/edit/{id}")
@@ -80,18 +81,17 @@ public class CustomerController {
             customerService.saveCustomer(customer);
         } catch (ConstraintViolationException e) {
             CustomerErrorResponse customerErrorResponse = new CustomerErrorResponse(e.getConstraintViolations());
-            model.addAttribute ("customerErrorResponse", customerErrorResponse);
+            model.addAttribute("customerErrorResponse", customerErrorResponse);
             return "error-page";
         }
 
-        return "redirect:/";
+        return "redirect:/customer/";
     }
 
     @RequestMapping("/delete/{id}")
     public String deleteCustomer(@PathVariable(name = "id") Long id) {
         customerService.deleteCustomer(id);
-        return "redirect:/";
+        return "redirect:/customer/";
     }
-
 
 }
