@@ -10,4 +10,9 @@ public class AppController {
     public String viewHomePage() {
         return "index";
     }
+
+    @GetMapping(value = {"/customer-list"})
+    public String viewCustomerList() {
+        return "customer-list";
+    }
 }

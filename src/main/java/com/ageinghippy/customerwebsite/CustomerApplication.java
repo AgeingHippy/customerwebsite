@@ -1,19 +1,35 @@
 package com.ageinghippy.customerwebsite;
 
 import com.ageinghippy.customerwebsite.model.Customer;
+import com.ageinghippy.customerwebsite.model.Role;
+import com.ageinghippy.customerwebsite.model.User;
+import com.ageinghippy.customerwebsite.repository.RoleRepository;
+import com.ageinghippy.customerwebsite.repository.UserRepository;
 import com.ageinghippy.customerwebsite.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 public class CustomerApplication implements CommandLineRunner {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     // The main method is defined here which will start your application.
     public static void main(String[] args) {
@@ -25,6 +41,23 @@ public class CustomerApplication implements CommandLineRunner {
     // data into the database for testing.
     @Override
     public void run(String... args) throws Exception {
+
+        if (roleRepository.findAll().isEmpty()) {
+            roleRepository.saveAll(List.of(
+                    Role.builder().name("ROLE_USER").build(),
+                    Role.builder().name("ROLE_ADMIN").build()
+            ));
+        }
+
+        if (userRepository.findAll().isEmpty()) {
+            userRepository.save(
+                    User.builder()
+                            .name("admin")
+                            .password(passwordEncoder.encode("password"))
+                            .roles(List.of(roleRepository.findByName("ROLE_ADMIN")))
+                            .build()
+            );
+        }
 
         if (customerService.getAllCustomers().isEmpty()) {
             //create customers

@@ -1,35 +1,79 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
 <head>
-    <meta charset="utf-8"/>
-    <title>Select Car</title>
+    <title>Customer Website Homepage</title>
 </head>
 <body>
-<div align="center">
-    <h1>Available cars</h1>
-    <br/>
-    <!--
-    The form below uses a structure similar to the new-customer page.
-    But this time, since the Customer object fields were populated
-    before it was added to the model, their values populate the fields
-    here. The content of the fields then POST to the update endpoint.
-    -->
-    <form action="#" th:action="@{'/customer/assign/' + ${customerId}}"
-          th:object="${car}" method="post">
+<div layout:fragment="content" th:remove="tag">
 
-        <fieldset>
-            <legend>Available Cars</legend>
-            <ul>
-                <li th:each="car : ${carList}">
-                    <input type="radio" th:field="${car.id}" th:value="${car.id}" />
-                    <label th:for="${car.id}"
-                           th:text="|${car.registration} ${car.make} ${car.model} £${car.costPerDay} per day|"></label>
-                </li>
-            </ul>
-        </fieldset>
+    <div align="center">
+        <h1>Available cars</h1>
+        <br/>
+        <!--
+        The form below uses a structure similar to the new-customer page.
+        But this time, since the Customer object fields were populated
+        before it was added to the model, their values populate the fields
+        here. The content of the fields then POST to the update endpoint.
+        -->
+        <form action="#" th:action="@{'/customer/assign/' + ${customerId}}"
+              th:object="${car}" method="post">
 
-        <p><input type="submit" value="Submit" /></p>
-    </form>
+            <fieldset>
+                <legend>Available Cars</legend>
+                <ul>
+                    <li th:each="car : ${carList}">
+                        <input type="radio" th:field="${car.id}" th:value="${car.id}" />
+                        <label th:for="${car.id}"
+                               th:text="|${car.registration} ${car.make} ${car.model} £${car.costPerDay} per day|"></label>
+                    </li>
+                </ul>
+            </fieldset>
+
+            <p><input type="submit" value="Submit" /></p>
+        </form>
+    </div>
+
+
 </div>
 </body>
 </html>
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="utf-8"/>-->
+<!--    <title>Select Car</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div align="center">-->
+<!--    <h1>Available cars</h1>-->
+<!--    <br/>-->
+<!--    &lt;!&ndash;-->
+<!--    The form below uses a structure similar to the new-customer page.-->
+<!--    But this time, since the Customer object fields were populated-->
+<!--    before it was added to the model, their values populate the fields-->
+<!--    here. The content of the fields then POST to the update endpoint.-->
+<!--    &ndash;&gt;-->
+<!--    <form action="#" th:action="@{'/customer/assign/' + ${customerId}}"-->
+<!--          th:object="${car}" method="post">-->
+
+<!--        <fieldset>-->
+<!--            <legend>Available Cars</legend>-->
+<!--            <ul>-->
+<!--                <li th:each="car : ${carList}">-->
+<!--                    <input type="radio" th:field="${car.id}" th:value="${car.id}" />-->
+<!--                    <label th:for="${car.id}"-->
+<!--                           th:text="|${car.registration} ${car.make} ${car.model} £${car.costPerDay} per day|"></label>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </fieldset>-->
+
+<!--        <p><input type="submit" value="Submit" /></p>-->
+<!--    </form>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

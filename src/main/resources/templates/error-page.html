@@ -1,18 +1,41 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
 <head>
-    <meta charset="utf-8"/>
-    <title>ERROR</title>
+    <title>Customer Website Homepage</title>
 </head>
 <body>
-<div align="center">
-    <p th:text="${message}">Error Message</p>
+<div layout:fragment="content" th:remove="tag">
 
-    <ul th:each="customerError : ${customerErrorResponse.getErrors()}">
-        <li th:text="${customerError.errorMessage}">error</li>
-    </ul>
+    <div align="center">
+        <p th:text="${message}">Error Message</p>
+
+        <ul th:each="customerError : ${customerErrorResponse.getErrors()}">
+            <li th:text="${customerError.errorMessage}">error</li>
+        </ul>
+
+    </div>
 
 </div>
-<a th:href="@{/}">Home</a>
 </body>
 </html>
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="utf-8"/>-->
+<!--    <title>ERROR</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div align="center">-->
+<!--    <p th:text="${message}">Error Message</p>-->
+
+<!--    <ul th:each="customerError : ${customerErrorResponse.getErrors()}">-->
+<!--        <li th:text="${customerError.errorMessage}">error</li>-->
+<!--    </ul>-->
+
+<!--</div>-->
+<!--<a th:href="@{/}">Home</a>-->
+<!--</body>-->
+<!--</html>-->
