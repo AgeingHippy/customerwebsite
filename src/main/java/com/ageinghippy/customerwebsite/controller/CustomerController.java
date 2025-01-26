@@ -20,7 +20,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @GetMapping(value = {"", "/"})
+    @GetMapping(value = {"/view"})
     public String showViewCustomerPage(Model model) {
 
         // call the service to retrieve all customers
@@ -31,6 +31,19 @@ public class CustomerController {
         model.addAttribute("customerList", customerList);
 
         return "view-customer";
+    }
+
+    @GetMapping(value = {"/customer-list"})
+    public String showCustomerListPage(Model model) {
+
+        // call the service to retrieve all customers
+        final List<Customer> customerList = customerService.getAllCustomers();
+
+        // once the customers are retrieved, you can
+        // store them in model and return the view
+        model.addAttribute("customerList", customerList);
+
+        return "customer-list";
     }
 
     @GetMapping("/new")

@@ -52,7 +52,7 @@ public class CustomerApplication implements CommandLineRunner {
         if (userRepository.findAll().isEmpty()) {
             userRepository.save(
                     User.builder()
-                            .name("admin")
+                            .username("admin")
                             .password(passwordEncoder.encode("password"))
                             .roles(List.of(roleRepository.findByName("ROLE_ADMIN")))
                             .build()

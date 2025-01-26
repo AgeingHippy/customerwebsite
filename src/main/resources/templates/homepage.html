@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Customer Website Homepage</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+
+    <div align="center">
+        <h1>Customer Website Options</h1>
+        <br/><br/>
+        <a th:href="@{/customer}">Manage Customers</a>
+        </br>
+        <a th:href="@{/car}">Manage Cars</a>
+    </div>
+
+</div>
+</body>
+</html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="utf-8"/>-->
+<!--    <title>Customer Website Homepage</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div align="center">-->
+<!--    <h1>Customer Website Options</h1>-->
+<!--    <br/><br/>-->
+<!--    <a th:href="@{/customer}">Manage Customers</a>-->
+<!--    </br>-->
+<!--    <a th:href="@{/car}">Manage Cars</a>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

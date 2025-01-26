@@ -1,7 +1,6 @@
 package com.ageinghippy.customerwebsite.security;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,11 +17,13 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/webjars/**", "/css/**", "/images/**", "js/**").permitAll()
-                        .requestMatchers("/", "login/**", "/register").permitAll()
+                        .requestMatchers("/" ,"/error-page").permitAll()
+                        .requestMatchers("login/**", "/register").anonymous()
                         .requestMatchers("/customer-view").hasRole("USER")
                         .anyRequest().hasRole("ADMIN")
                 )
-                .formLogin(Customizer.withDefaults());
+//                .formLogin(Customizer.withDefaults());
+                .formLogin(formLogin -> formLogin.defaultSuccessUrl("/login/success"));
         return http.build();
     }
 

@@ -23,6 +23,6 @@ public class UserController {
     public String doRegister(@ModelAttribute User user ) {
         user = userService.createUser(user);
 
-        return "redirect :/";
+        return "redirect :/login";
     }
 }
