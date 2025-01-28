@@ -1,6 +1,7 @@
 package com.ageinghippy.customerwebsite.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,14 +17,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/webjars/**", "/css/**", "/images/**", "js/**").permitAll()
-                        .requestMatchers("/" ,"/index","/homepage","/error-page").permitAll()
+                        .requestMatchers("/webjars/**", "/css/**", "/images/**", "/js/**").permitAll()
+                        .requestMatchers("/", "/index", "/homepage", "/error-page").permitAll()
                         .requestMatchers("/login", "/register").anonymous()
                         .requestMatchers("/customer/view").hasRole("USER")
                         .anyRequest().hasRole("ADMIN")
                 )
 //                .formLogin(Customizer.withDefaults());
-                .formLogin(formLogin -> formLogin.defaultSuccessUrl("/homepage",true));
+                .formLogin(formLogin -> formLogin.defaultSuccessUrl("/homepage", true))
+                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
