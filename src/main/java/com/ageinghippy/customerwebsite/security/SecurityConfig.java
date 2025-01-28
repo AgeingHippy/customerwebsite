@@ -17,13 +17,13 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/webjars/**", "/css/**", "/images/**", "js/**").permitAll()
-                        .requestMatchers("/" ,"/error-page").permitAll()
-                        .requestMatchers("login/**", "/register").anonymous()
-                        .requestMatchers("/customer-view").hasRole("USER")
+                        .requestMatchers("/" ,"/index","/homepage","/error-page").permitAll()
+                        .requestMatchers("/login", "/register").anonymous()
+                        .requestMatchers("/customer/view").hasRole("USER")
                         .anyRequest().hasRole("ADMIN")
                 )
 //                .formLogin(Customizer.withDefaults());
-                .formLogin(formLogin -> formLogin.defaultSuccessUrl("/login/success"));
+                .formLogin(formLogin -> formLogin.defaultSuccessUrl("/homepage",true));
         return http.build();
     }
 

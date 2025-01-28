@@ -12,26 +12,15 @@ public class AppController {
 
     private final UserService userService;
 
-    @GetMapping(value = {"/","/index"})
-    public String viewHomePage() {
-        return "index";
+    @GetMapping(value = {"/","/index", "/homepage"})
+    public String viewIndex(Authentication authentication) {
+        return "homepage";
     }
 
-//    @GetMapping(value = {"/customer-list"})
-//    public String viewCustomerList() {
-//        return "customer-list";
+
+//    @GetMapping("/login/success")
+//    public String loginSuccess(Authentication authentication) {
+//        return "redirect:/homepage";
 //    }
-
-    @GetMapping("/login/success")
-    public String loginSuccess(Authentication authentication) {
-        String successPage;
-        if (authentication.getAuthorities().contains(userService.getRoleByName("ROLE_ADMIN"))) {
-            successPage = "customer-list";
-        }
-        else {
-            successPage = "customer-view";
-        }
-        return successPage;
-    }
 
 }

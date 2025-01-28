@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       layout:decorate="~{fragments/layout}">
 <head>
     <title>Customer Website Homepage</title>
@@ -10,10 +11,27 @@
 
     <div align="center">
         <h1>Customer Website Options</h1>
-        <br/><br/>
-        <a th:href="@{/customer}">Manage Customers</a>
-        </br>
-        <a th:href="@{/car}">Manage Cars</a>
+        <br/>
+        <span sec:authorize="isAuthenticated()">
+            <span sec:authorize="hasRole('ADMIN')">
+                <br/>
+                <a th:href="@{/customer/list}">Manage Customers</a>
+                </br>
+                <a th:href="@{/car/view}">Manage Cars</a>
+            </span>
+            <span sec:authorize="hasRole('USER')">
+                <br/>
+                <a th:href="@{/customer/view}">View Customers</a>
+            </span>
+        </span>
+
+        <span sec:authorize="!isAuthenticated()">
+        <br>
+        <a th:href="@{/login}">Login</a>
+        <br>
+        <a th:href="@{/register}">Create an account</a>
+        </span>
+
     </div>
 
 </div>

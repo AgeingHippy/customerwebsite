@@ -21,7 +21,7 @@ public class CarController {
 
     private final CarService carService;
 
-    @RequestMapping(value = {"","/"})
+    @RequestMapping(value = {"/view"})
     public String viewAllCars(Model model) {
         model.addAttribute("carList", carService.getAllCars());
         return "view-car";
@@ -52,7 +52,7 @@ public class CarController {
             model.addAttribute("customerErrorResponse", customerErrorResponse);
             return "error-page";
         }
-        return "redirect:/car";
+        return "redirect:/car/view";
     }
 
     @GetMapping("/edit/{id}")
@@ -81,13 +81,13 @@ public class CarController {
             model.addAttribute("customerErrorResponse", customerErrorResponse);
             return "error-page";
         }
-        return "redirect:/car";
+        return "redirect:/car/view";
     }
 
     @RequestMapping("/delete/{id}")
     public String deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);
-        return "redirect:/car";
+        return "redirect:/car/view";
     }
 
 

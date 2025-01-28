@@ -22,7 +22,7 @@ public class UserService {
     @Transactional
     public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if(user.getRoles().isEmpty()) {
+        if(user.getRoles() == null || user.getRoles().isEmpty()) {
             user.setRoles(List.of(roleRepository.findByName("ROLE_USER")));
         }
         return userRepository.save(user);

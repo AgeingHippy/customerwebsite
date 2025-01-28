@@ -32,13 +32,13 @@
                 <td th:text="${customer.age}">Age</td>
                 <td th:text="${customer.address}">Address</td>
                 <td th:text="${customer.car?.id}">Hire Car</td>
-<!--                <td>-->
-<!--                    <a th:href="@{'/customer/edit/' + ${customer.id}}">Edit</a>-->
-<!--                    <a th:href="@{'/customer/delete/' + ${customer.id}}">Delete</a>-->
-<!--                    <a th:href="@{(${customer.car} == null ? '/car/assign/' : '/customer/remove/') + ${customer.id}}">-->
-<!--                        <span th:text="(${customer.car} == null ? 'Assign' : 'Remove')"/>-->
-<!--                    </a>-->
-<!--                </td>-->
+                <!--                <td>-->
+                <!--                    <a th:href="@{'/customer/edit/' + ${customer.id}}">Edit</a>-->
+                <!--                    <a th:href="@{'/customer/delete/' + ${customer.id}}">Delete</a>-->
+                <!--                    <a th:href="@{(${customer.car} == null ? '/car/assign/' : '/customer/remove/') + ${customer.id}}">-->
+                <!--                        <span th:text="(${customer.car} == null ? 'Assign' : 'Remove')"/>-->
+                <!--                    </a>-->
+                <!--                </td>-->
             </tr>
             </tbody>
         </table>

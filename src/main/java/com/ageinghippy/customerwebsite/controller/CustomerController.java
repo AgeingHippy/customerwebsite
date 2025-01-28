@@ -22,25 +22,17 @@ public class CustomerController {
 
     @GetMapping(value = {"/view"})
     public String showViewCustomerPage(Model model) {
-
-        // call the service to retrieve all customers
         final List<Customer> customerList = customerService.getAllCustomers();
 
-        // once the customers are retrieved, you can
-        // store them in model and return the view
         model.addAttribute("customerList", customerList);
 
-        return "view-customer";
+        return "customer-view";
     }
 
-    @GetMapping(value = {"/customer-list"})
+    @GetMapping(value = {"/list"})
     public String showCustomerListPage(Model model) {
-
-        // call the service to retrieve all customers
         final List<Customer> customerList = customerService.getAllCustomers();
 
-        // once the customers are retrieved, you can
-        // store them in model and return the view
         model.addAttribute("customerList", customerList);
 
         return "customer-list";
@@ -67,7 +59,7 @@ public class CustomerController {
             return "error-page";
         }
 
-        return "redirect:/customer/";
+        return "redirect:/customer/list";
     }
 
     @GetMapping("/edit/{id}")
@@ -99,7 +91,7 @@ public class CustomerController {
             return "error-page";
         }
 
-        return "redirect:/customer/";
+        return "redirect:/customer/list";
     }
 
     @PostMapping("/assign/{id}")
@@ -107,20 +99,20 @@ public class CustomerController {
                             @ModelAttribute("car") Car car) {
         customerService.assignCarToCustomer(id, car.getId());
 
-        return "redirect:/customer";
+        return "redirect:/customer/list";
     }
 
     @GetMapping("/remove/{id}")
     public String removeCar(@PathVariable(name = "id") Long id) {
         customerService.removeCarFromCustomer(id);
 
-        return "redirect:/customer";
+        return "redirect:/customer/list";
     }
 
     @RequestMapping("/delete/{id}")
     public String deleteCustomer(@PathVariable(name = "id") Long id) {
         customerService.deleteCustomer(id);
-        return "redirect:/customer/";
+        return "redirect:/customer/list";
     }
 
 }
