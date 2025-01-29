@@ -1,22 +1,22 @@
 package com.ageinghippy.customerwebsite.controller;
 
 
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.JobParametersInvalidException;
+import com.ageinghippy.customerwebsite.service.BatchJobService;
+import org.springframework.batch.core.*;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.List;
+
+
+@Controller
 @RequestMapping("/batch")
 public class BatchController {
 
@@ -26,31 +26,22 @@ public class BatchController {
     @Autowired
     private Job customerLoadJob;
 
-    @GetMapping(value = "/loadCustomer")
-    public String runCustomerLoadJob(@RequestParam(name = "id") String jobId) {
+    @Autowired
+    private BatchJobService batchJobService;
 
-        JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
+    @GetMapping("/jobs")
+    public String jobExecutions(Model model) {
 
-        if (StringUtils.hasLength(jobId)) {
-            jobParametersBuilder.addString("jobId", jobId);
-        }
-        JobExecution jobExecution;
-        try {
-            jobExecution =
-                    jobLauncher.run(
-                            customerLoadJob,
-                            jobParametersBuilder.toJobParameters()
-                    );
-        } catch (JobExecutionAlreadyRunningException
-                 | JobRestartException
-                 | JobInstanceAlreadyCompleteException
-                 | JobParametersInvalidException e) {
-            e.printStackTrace();
-            // return exception message
-            return e.getMessage();
-        }
-        // return job execution status
-        return jobExecution.getStatus().name();
+        model.addAttribute("jobExecutions", batchJobService.getJobExecutions());
+
+        return "/batch";
+    }
+
+    @PostMapping("/runJob")
+    public String runJob(Model model, @RequestParam String fileName) {
+        model.addAttribute("jobExecutions",
+                List.of(batchJobService.runCustomerLoadJob(fileName)));
+        return "/batch";
     }
 }
 

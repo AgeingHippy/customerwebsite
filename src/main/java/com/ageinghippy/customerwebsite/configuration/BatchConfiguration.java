@@ -4,6 +4,7 @@ import com.ageinghippy.customerwebsite.model.Customer;
 import com.ageinghippy.customerwebsite.repository.CustomerRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
@@ -21,7 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -63,13 +64,13 @@ public class BatchConfiguration {
     }
 
     @Bean
+    @StepScope
     public FlatFileItemReader<Customer> customerFileItemReader(
-            @Value("${customer.input.file}") String inputFile) {
+            @Value("#{jobParameters[filePath]}") String inputFile) {
 
         return new FlatFileItemReaderBuilder<Customer>()
                 .name("customer-file-reader")
-                .resource(new ClassPathResource(inputFile))
-                .delimited()
+                .resource(new FileSystemResource(inputFile)).delimited()
                 .names("fullName", "emailAddress", "age", "address")
                 .linesToSkip(1)
                 .fieldSetMapper(
@@ -80,6 +81,7 @@ public class BatchConfiguration {
                         })
                 .build();
     }
+
 
     @Component
     public static class CustomerItemWriter implements ItemWriter<Customer> {

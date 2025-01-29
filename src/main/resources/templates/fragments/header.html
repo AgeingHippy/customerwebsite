@@ -21,6 +21,10 @@
                     <li sec:authorize="hasRole('ADMIN')" class="active">
                         <a th:href="@{/car/view}">cars</a>
                     </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="active">
+                        <a th:href="@{/batch/jobs}">Batch Jobs</a>
+                    </li>
+
                     <li sec:authorize="!hasRole('ADMIN') and hasRole('USER')" class="active">
                         <a th:href="@{/customer/view}">customers</a>
                     </li>

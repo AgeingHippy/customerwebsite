@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Load Customer Batch Jobs</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+
+    <div align="center">
+        <h1>Batch Job Executions</h1>
+        <br/>
+        <table border="1" cellpadding="10">
+            <tr>
+                <td>Job Instance Name</td>
+                <td>Status</td>
+                <td>Start</td>
+                <td>End</td>
+                <td>Exit Status</td>
+            </tr>
+            <tr th:each="jobExecution : ${jobExecutions}">
+                <td th:text="${jobExecution.jobInstance.jobName}">Job Instance Name</td>
+                <td th:text="${jobExecution.status.name()}">Status</td>
+                <td th:text="${jobExecution.startTime}">Start</td>
+                <td th:text="${jobExecution.endTime}">End</td>
+                <td th:text="${jobExecution.exitStatus.exitCode}">Exit Status</td>
+            </tr>
+        </table>
+    </div>
+    <br/><br/><br/>
+    <div align="center">
+        <form action="#" th:action="@{'/batch/runJob'}" method="post">
+            <label for="fileName">Customer file to load (full path):</label>
+            <input type="text" id="fileName" name="fileName" size="70">
+            <input type="submit" value="Load">
+        </form>
+    </div>
+
+
+</div>
+</body>
+</html>
