@@ -32,7 +32,7 @@ public class Car {
     @Column(nullable = false)
     private Integer costPerDay;
 
-    @OneToOne(mappedBy = "car")
+    @OneToOne(mappedBy = "car", optional = true)
     private Customer customer;
 
 }

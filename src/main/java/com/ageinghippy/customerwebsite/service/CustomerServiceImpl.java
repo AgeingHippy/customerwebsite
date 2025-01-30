@@ -1,6 +1,8 @@
 package com.ageinghippy.customerwebsite.service;
 
+import com.ageinghippy.customerwebsite.model.Car;
 import com.ageinghippy.customerwebsite.model.Customer;
+import com.ageinghippy.customerwebsite.repository.CarRepository;
 import com.ageinghippy.customerwebsite.repository.CustomerRepository;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -58,12 +60,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void deleteCustomer(Long id) {
-        //todo - determine correct CascadeType so that manual removal of car is not necessary - NOT WORKING!!
         Customer customer = customerRepository.findById(id).orElse(null);
-        if (customer.getCar() != null) {
+        if (customer != null && customer.getCar() != null) {
+            Car car = customer.getCar();
             customer.setCar(null);
-            customerRepository.saveAndFlush(customer);
-            customer = customerRepository.findById(id).orElse(null);
+            car.setCustomer(null);
         }
         customerRepository.deleteById(id);
     }
